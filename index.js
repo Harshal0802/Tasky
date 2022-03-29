@@ -107,10 +107,6 @@ const editCard = (event) => {
     taskType.setAttribute("contenteditable", "true");
     submitButton.setAttribute("onclick", "saveEditChange.apply(this, arguments)");
     submitButton.innerHTML = "Save Changes";
-    console.log(taskTitle);
-    console.log(taskDescription);
-    console.log(taskType);
-    console.log(submitButton);
 };
 
 
@@ -152,4 +148,9 @@ const saveEditChange = (event) => {
       return task;  
     });
     updateLocalStorage();
+    taskTitle.setAttribute("contenteditable", "false");
+    taskDescription.setAttribute("contenteditable", "false");
+    taskType.setAttribute("contenteditable", "false");
+    submitButton.removeAttribute("onclick");
+    submitButton.innerHTML = "Open Task";
 };
