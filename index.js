@@ -7,8 +7,8 @@ const newCard = ({id, imageUrl, taskTitle, taskType, taskDescription}) => `
     <div class="col-md-6 col-lg-4 id=${id}">
     <div class="card">
         <div class="card-header d-flex justify-content-end gap-2 rounded-3">
-            <button type="button" class="btn btn-outline-success">
-                <i class="fa-solid fa-pencil"></i>
+            <button type="button" id=${id} class="btn btn-outline-success" onclick="editCard.apply(this, arguments)">
+                <i class="fa-solid fa-pencil" id=${id} onclick="editCard.apply(this, arguments)"></i>
             </button>
             <button type="button" id=${id} class="btn btn-outline-danger" onclick="deleteCard.apply(this, arguments)">
                 <i class="fa-solid fa-trash" id=${id} onclick="deleteCard.apply(this, arguments)"></i>
@@ -83,4 +83,31 @@ const deleteCard = (event) => {
     return taskContainer.removeChild(
         event.target.parentNode.parentNode.parentNode.parentNode
     );
+};
+
+const editCard = (event) => {
+    event = window.event;
+    const targetID = event.target.id;
+    const tagname = event.target.tagName;
+
+    let parentElement;
+
+    if(tagname === "BUTTON"){
+        parentElement = event.target.parentNode.parentNode;
+    }else{
+        parentElement = event.target.parentNode.parentNode.parentNode;
+    }
+
+    let taskTitle = parentElement.childNodes[5].childNodes[1];
+    let taskDescription = parentElement.childNodes[5].childNodes[3];
+    let taskType = parentElement.childNodes[5].childNodes[5];
+    let submitButton = parentElement.childNodes[7].childNodes[1];
+    taskTitle.setAttribute("contenteditable", "true");
+    taskDescription.setAttribute("contenteditable", "true");
+    taskType.setAttribute("contenteditable", "true");
+    submitButton.innerHTML = "Save Changes";
+    console.log(taskTitle);
+    console.log(taskDescription);
+    console.log(taskType);
+    console.log(submitButton);
 };
