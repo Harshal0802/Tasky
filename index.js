@@ -1,7 +1,7 @@
 const taskContainer = document.getElementById("task_container");
 console.log(taskContainer);
 
-const globalStore = [];
+let globalStore = [];
 
 const newCard = ({id, imageUrl, taskTitle, taskType, taskDescription}) => `
     <div class="col-md-6 col-lg-4 id=${id}">
@@ -10,8 +10,8 @@ const newCard = ({id, imageUrl, taskTitle, taskType, taskDescription}) => `
             <button type="button" class="btn btn-outline-success">
                 <i class="fa-solid fa-pencil"></i>
             </button>
-            <button type="button" class="btn btn-outline-danger">
-                <i class="fa-solid fa-trash"></i>
+            <button type="button" id=${id} class="btn btn-outline-danger" onclick="deleteCard.apply(this, arguments)">
+                <i class="fa-solid fa-trash" id=${id} onclick="deleteCard.apply(this, arguments)"></i>
             </button>
         </div>
         <img src="${imageUrl}" class="card-img-top" alt="...">
@@ -28,6 +28,10 @@ const newCard = ({id, imageUrl, taskTitle, taskType, taskDescription}) => `
     </div>
     </div>
 `;
+
+const updateLocalStorage = () => {
+    localStorage.setItem("tasky", JSON.stringify({cards: globalStore}));
+};
 
 const loadInitialTaskCards = () => {
     //access localStorage
@@ -57,6 +61,26 @@ const saveChanges = () => {
     taskContainer.insertAdjacentHTML("beforeend",createNewCard);
 
     globalStore.push(taskData);
-    console.log(globalStore);
-    localStorage.setItem("tasky", JSON.stringify({cards: globalStore}));
+
+    updateLocalStorage();
+};
+
+const deleteCard = (event) => {
+    event = window.event;
+    const targetID = event.target.id;
+    const tagname = event.target.tagName;
+
+    globalStore = globalStore.filter((cardObject) => cardObject.id !== targetID);
+
+    updateLocalStorage();
+
+    if(tagname === "BUTTON"){
+        return taskContainer.removeChild(
+            event.target.parentNode.parentNode.parentNode
+        );
+    }
+
+    return taskContainer.removeChild(
+        event.target.parentNode.parentNode.parentNode.parentNode
+    );
 };
