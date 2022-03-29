@@ -4,7 +4,7 @@ console.log(taskContainer);
 let globalStore = [];
 
 const newCard = ({id, imageUrl, taskTitle, taskType, taskDescription}) => `
-    <div class="col-md-6 col-lg-4 id=${id}">
+    <div class="col-md-6 col-lg-4 mb-4" id=${id}>
     <div class="card">
         <div class="card-header d-flex justify-content-end gap-2 rounded-3">
             <button type="button" id=${id} class="btn btn-outline-success" onclick="editCard.apply(this, arguments)">
